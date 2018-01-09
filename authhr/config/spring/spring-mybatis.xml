@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- - 1.配置 数据库连接池 -->
+	<!-- - 1.1 引入 外部的property文件 -->
+	<context:property-placeholder location="classpath:spring/jdbc.properties" />
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.pwd}" />
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="1" />
+		<property name="minIdle" value="1" />
+		<property name="maxActive" value="10" />
+
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="10000" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="true" />
+		<property name="testOnReturn" value="false" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="20" />
+		<!-- 这里配置提交方式，默认就是TRUE，可以不用配置 -->
+		<property name="defaultAutoCommit" value="true" />
+	</bean>
+
+	<!-- - 2.配置 sqlSessionFacory bean -->
+	<bean id="sessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 别名 -->
+		<property name="typeAliasesPackage" value="com.yz.entity"></property>
+		
+		<!-- 配置映射文件所在的位置 -->
+		<!-- <property name="mapperLocations" value="classpath:com/yz/dao/*.xml"></property> -->
+		
+		<property name="mapperLocations">
+			<array>
+				<value>classpath:com/yz/entity/*Mapper.xml</value>
+			</array>
+		</property>
+		
+		
+		
+		<!-- mybaits配置文件所在的位置 -->
+		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml"></property>
+		<!-- 配置分页组件 -->
+		<!-- <property name="plugins"> <array> <bean class="com.github.pagehelper.PageHelper"> 
+			<property name="properties"> <value>dialect=oracle</value> </property> </bean> 
+			</array> </property> -->
+	</bean>
+
+	<!-- - 3.配置 Dao 层的代理对象Bean -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- DAO 接口所在的包 -->
+		<property name="basePackage" value="com.yz.dao"></property>
+		<!-- 配置sessionFactory Bean的name -->
+		<property name="sqlSessionFactoryBeanName" value="sessionFactoryBean"></property>
+		<!-- <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+ -->	</bean>
+</beans>

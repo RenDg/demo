@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+	<!-- - 3.扫描Controller -->
+	<context:component-scan base-package="com.yz.controller">
+	</context:component-scan>
+		
+	<!-- - 4.配置视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<!-- - 5.配置annotation-driven -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<!-- - 6.配置静态资源 -->
+	<mvc:default-servlet-handler/>
+	<!-- 上传文件 解析器 -->
+     <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+          <property name="defaultEncoding">
+              <value>UTF-8</value>
+          </property>
+          <property name="maxUploadSize">
+              <value>3250585600</value>
+              <!-- 上传文件大小限制为31M，31*1024*1024 -->
+          </property>
+          <property name="maxInMemorySize">
+              <value>4096</value>
+          </property>
+     </bean>
+	<!-- 拦截器 -->
+	 <!--  <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/"/> 
+			<mvc:mapping path="/**"/> 
+			<bean class="com.yz.interceptors.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>  -->  
+</beans>

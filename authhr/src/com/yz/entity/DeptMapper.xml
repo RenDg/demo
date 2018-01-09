@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yz.dao.DeptMapper" >
+  <resultMap id="BaseResultMap" type="com.yz.entity.Dept" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="DEPT_NO" property="deptNo" jdbcType="VARCHAR" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="DEPT_ORDER" property="deptOrder" jdbcType="DECIMAL" />
+    <result column="ICON_CLS" property="iconCls" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="PID" property="pid" jdbcType="DECIMAL" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, DEPT_NO, DEPT_NAME, DEPT_ORDER, ICON_CLS, ADDRESS, PID, CREATE_DATE, UPDATE_DATE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yz.entity.DeptExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from T_SYS_DEPT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_DEPT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SYS_DEPT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yz.entity.DeptExample" >
+    delete from T_SYS_DEPT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yz.entity.Dept" >
+    insert into T_SYS_DEPT (ID, DEPT_NO, DEPT_NAME, 
+      DEPT_ORDER, ICON_CLS, ADDRESS, 
+      PID, CREATE_DATE, UPDATE_DATE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{deptNo,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
+      #{deptOrder,jdbcType=DECIMAL}, #{iconCls,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{pid,jdbcType=DECIMAL}, #{createDate,jdbcType=DATE}, #{updateDate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yz.entity.Dept" >
+    insert into T_SYS_DEPT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="deptNo != null" >
+        DEPT_NO,
+      </if>
+      <if test="deptName != null" >
+        DEPT_NAME,
+      </if>
+      <if test="deptOrder != null" >
+        DEPT_ORDER,
+      </if>
+      <if test="iconCls != null" >
+        ICON_CLS,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="pid != null" >
+        PID,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      seq_hr.nextval,
+      <if test="deptNo != null" >
+        #{deptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptOrder != null" >
+        #{deptOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="iconCls != null" >
+        #{iconCls,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yz.entity.DeptExample" resultType="java.lang.Integer" >
+    select count(*) from T_SYS_DEPT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SYS_DEPT
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.deptNo != null" >
+        DEPT_NO = #{record.deptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptName != null" >
+        DEPT_NAME = #{record.deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptOrder != null" >
+        DEPT_ORDER = #{record.deptOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="record.iconCls != null" >
+        ICON_CLS = #{record.iconCls,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        ADDRESS = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pid != null" >
+        PID = #{record.pid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=DATE},
+      </if>
+      <if test="record.updateDate != null" >
+        UPDATE_DATE = #{record.updateDate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SYS_DEPT
+    set ID = #{record.id,jdbcType=DECIMAL},
+      DEPT_NO = #{record.deptNo,jdbcType=VARCHAR},
+      DEPT_NAME = #{record.deptName,jdbcType=VARCHAR},
+      DEPT_ORDER = #{record.deptOrder,jdbcType=DECIMAL},
+      ICON_CLS = #{record.iconCls,jdbcType=VARCHAR},
+      ADDRESS = #{record.address,jdbcType=VARCHAR},
+      PID = #{record.pid,jdbcType=DECIMAL},
+      CREATE_DATE = #{record.createDate,jdbcType=DATE},
+      UPDATE_DATE = #{record.updateDate,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yz.entity.Dept" >
+    update T_SYS_DEPT
+    <set >
+      <if test="deptNo != null" >
+        DEPT_NO = #{deptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptOrder != null" >
+        DEPT_ORDER = #{deptOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="iconCls != null" >
+        ICON_CLS = #{iconCls,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        PID = #{pid,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yz.entity.Dept" >
+    update T_SYS_DEPT
+    set DEPT_NO = #{deptNo,jdbcType=VARCHAR},
+      DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+      DEPT_ORDER = #{deptOrder,jdbcType=DECIMAL},
+      ICON_CLS = #{iconCls,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      PID = #{pid,jdbcType=DECIMAL},
+      CREATE_DATE = #{createDate,jdbcType=DATE},
+      UPDATE_DATE = #{updateDate,jdbcType=DATE}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.yz.entity.DeptExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from T_SYS_DEPT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  <select id="findDeptByRoleID" resultMap="BaseResultMap" parameterType="int">
+  	
+  	 <!-- select * from t_sys_user u where u.dept_id = #{deptId}  -->
+  	 select us.*, de.id
+
+      from t_sys_user us
+      
+        left join t_sys_dept de on us.dept_id = de.id
+        <where>
+        	<if test="deptId !=null and deptId!=0">
+        	 us.dept_id = #{deptId}
+        	
+        	</if> 
+        
+        </where>
+  
+  </select>
+  <select id="findUserByDeptId" resultMap="BaseResultMap" parameterType="int">
+  	select * from t_sys_user tsu where tsu.dept_id=#{deptId} 
+  </select>
+</mapper>

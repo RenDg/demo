@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yz.dao.CustomersMapper" >
+  <resultMap id="BaseResultMap" type="com.yz.entity.Customers" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="EMP_NO" property="empNo" jdbcType="VARCHAR" />
+    <result column="CUS_NAME" property="cusName" jdbcType="VARCHAR" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="DECIMAL" />
+    <result column="POSITION" property="position" jdbcType="VARCHAR" />
+    <result column="CHARGEWORK" property="chargework" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, EMP_NO, CUS_NAME, UNIT, DEPT_ID, POSITION, CHARGEWORK, REMARKS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yz.entity.CustomersExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from T_SYS_CUSTOMERS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_CUSTOMERS
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYS_CUSTOMERS
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yz.entity.CustomersExample" >
+    delete from T_SYS_CUSTOMERS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yz.entity.Customers" >
+    insert into T_SYS_CUSTOMERS (ID, EMP_NO, CUS_NAME, 
+      UNIT, DEPT_ID, POSITION, 
+      CHARGEWORK, REMARKS)
+    values (#{id,jdbcType=DECIMAL}, #{empNo,jdbcType=VARCHAR}, #{cusName,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{deptId,jdbcType=DECIMAL}, #{position,jdbcType=VARCHAR}, 
+      #{chargework,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yz.entity.Customers" >
+    insert into T_SYS_CUSTOMERS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="empNo != null" >
+        EMP_NO,
+      </if>
+      <if test="cusName != null" >
+        CUS_NAME,
+      </if>
+      <if test="unit != null" >
+        UNIT,
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID,
+      </if>
+      <if test="position != null" >
+        POSITION,
+      </if>
+      <if test="chargework != null" >
+        CHARGEWORK,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      seq_hr.nextval,
+      <if test="empNo != null" >
+        #{empNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cusName != null" >
+        #{cusName,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=DECIMAL},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="chargework != null" >
+        #{chargework,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yz.entity.CustomersExample" resultType="java.lang.Integer" >
+    select count(*) from T_SYS_CUSTOMERS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SYS_CUSTOMERS
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.empNo != null" >
+        EMP_NO = #{record.empNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cusName != null" >
+        CUS_NAME = #{record.cusName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null" >
+        UNIT = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptId != null" >
+        DEPT_ID = #{record.deptId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.position != null" >
+        POSITION = #{record.position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chargework != null" >
+        CHARGEWORK = #{record.chargework,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SYS_CUSTOMERS
+    set ID = #{record.id,jdbcType=DECIMAL},
+      EMP_NO = #{record.empNo,jdbcType=VARCHAR},
+      CUS_NAME = #{record.cusName,jdbcType=VARCHAR},
+      UNIT = #{record.unit,jdbcType=VARCHAR},
+      DEPT_ID = #{record.deptId,jdbcType=DECIMAL},
+      POSITION = #{record.position,jdbcType=VARCHAR},
+      CHARGEWORK = #{record.chargework,jdbcType=VARCHAR},
+      REMARKS = #{record.remarks,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yz.entity.Customers" >
+    update T_SYS_CUSTOMERS
+    <set >
+      <if test="empNo != null" >
+        EMP_NO = #{empNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cusName != null" >
+        CUS_NAME = #{cusName,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID = #{deptId,jdbcType=DECIMAL},
+      </if>
+      <if test="position != null" >
+        POSITION = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="chargework != null" >
+        CHARGEWORK = #{chargework,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yz.entity.Customers" >
+    update T_SYS_CUSTOMERS
+    set EMP_NO = #{empNo,jdbcType=VARCHAR},
+      CUS_NAME = #{cusName,jdbcType=VARCHAR},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      DEPT_ID = #{deptId,jdbcType=DECIMAL},
+      POSITION = #{position,jdbcType=VARCHAR},
+      CHARGEWORK = #{chargework,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.yz.entity.CustomersExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from T_SYS_CUSTOMERS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

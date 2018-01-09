@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yz.dao.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.yz.entity.Article" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NEWS_TITLE" property="newsTitle" jdbcType="VARCHAR" />
+    <result column="NEWS_AUTHOR" property="newsAuthor" jdbcType="VARCHAR" />
+    <result column="NEWS_IMAGE" property="newsImage" jdbcType="VARCHAR" />
+    <result column="CLICK_NUM" property="clickNum" jdbcType="DECIMAL" />
+    <result column="SHOW" property="show" jdbcType="DECIMAL" />
+    <result column="TYPE_ID" property="typeId" jdbcType="DECIMAL" />
+    <result column="STATES" property="states" jdbcType="DECIMAL" />
+    <result column="NEWS_CONTENT" property="newsContent" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, NEWS_TITLE, NEWS_AUTHOR, NEWS_IMAGE, CLICK_NUM, SHOW, TYPE_ID, STATES, NEWS_CONTENT, 
+    CREATE_DATE, UPDATE_DATE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yz.entity.ArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from T_CMS_ARTICLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_CMS_ARTICLE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_CMS_ARTICLE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yz.entity.ArticleExample" >
+    delete from T_CMS_ARTICLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yz.entity.Article" >
+    insert into T_CMS_ARTICLE (ID, NEWS_TITLE, NEWS_AUTHOR, 
+      NEWS_IMAGE, CLICK_NUM, SHOW, 
+      TYPE_ID, STATES, NEWS_CONTENT, 
+      CREATE_DATE, UPDATE_DATE)
+    values (#{id,jdbcType=DECIMAL}, #{newsTitle,jdbcType=VARCHAR}, #{newsAuthor,jdbcType=VARCHAR}, 
+      #{newsImage,jdbcType=VARCHAR}, #{clickNum,jdbcType=DECIMAL}, #{show,jdbcType=DECIMAL}, 
+      #{typeId,jdbcType=DECIMAL}, #{states,jdbcType=DECIMAL}, #{newsContent,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yz.entity.Article" >
+    insert into T_CMS_ARTICLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="newsTitle != null" >
+        NEWS_TITLE,
+      </if>
+      <if test="newsAuthor != null" >
+        NEWS_AUTHOR,
+      </if>
+      <if test="newsImage != null" >
+        NEWS_IMAGE,
+      </if>
+      <if test="clickNum != null" >
+        CLICK_NUM,
+      </if>
+      <if test="show != null" >
+        SHOW,
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID,
+      </if>
+      <if test="states != null" >
+        STATES,
+      </if>
+      <if test="newsContent != null" >
+        NEWS_CONTENT,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     seq_hr.nextval,
+      <if test="newsTitle != null" >
+        #{newsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="newsAuthor != null" >
+        #{newsAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="newsImage != null" >
+        #{newsImage,jdbcType=VARCHAR},
+      </if>
+      <if test="clickNum != null" >
+        #{clickNum,jdbcType=DECIMAL},
+      </if>
+      <if test="show != null" >
+        #{show,jdbcType=DECIMAL},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="states != null" >
+        #{states,jdbcType=DECIMAL},
+      </if>
+      <if test="newsContent != null" >
+        #{newsContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yz.entity.ArticleExample" resultType="java.lang.Integer" >
+    select count(*) from T_CMS_ARTICLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_CMS_ARTICLE
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.newsTitle != null" >
+        NEWS_TITLE = #{record.newsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsAuthor != null" >
+        NEWS_AUTHOR = #{record.newsAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsImage != null" >
+        NEWS_IMAGE = #{record.newsImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clickNum != null" >
+        CLICK_NUM = #{record.clickNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.show != null" >
+        SHOW = #{record.show,jdbcType=DECIMAL},
+      </if>
+      <if test="record.typeId != null" >
+        TYPE_ID = #{record.typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.states != null" >
+        STATES = #{record.states,jdbcType=DECIMAL},
+      </if>
+      <if test="record.newsContent != null" >
+        NEWS_CONTENT = #{record.newsContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null" >
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_CMS_ARTICLE
+    set ID = #{record.id,jdbcType=DECIMAL},
+      NEWS_TITLE = #{record.newsTitle,jdbcType=VARCHAR},
+      NEWS_AUTHOR = #{record.newsAuthor,jdbcType=VARCHAR},
+      NEWS_IMAGE = #{record.newsImage,jdbcType=VARCHAR},
+      CLICK_NUM = #{record.clickNum,jdbcType=DECIMAL},
+      SHOW = #{record.show,jdbcType=DECIMAL},
+      TYPE_ID = #{record.typeId,jdbcType=DECIMAL},
+      STATES = #{record.states,jdbcType=DECIMAL},
+      NEWS_CONTENT = #{record.newsContent,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yz.entity.Article" >
+    update T_CMS_ARTICLE
+    <set >
+      <if test="newsTitle != null" >
+        NEWS_TITLE = #{newsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="newsAuthor != null" >
+        NEWS_AUTHOR = #{newsAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="newsImage != null" >
+        NEWS_IMAGE = #{newsImage,jdbcType=VARCHAR},
+      </if>
+      <if test="clickNum != null" >
+        CLICK_NUM = #{clickNum,jdbcType=DECIMAL},
+      </if>
+      <if test="show != null" >
+        SHOW = #{show,jdbcType=DECIMAL},
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID = #{typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="states != null" >
+        STATES = #{states,jdbcType=DECIMAL},
+      </if>
+      <if test="newsContent != null" >
+        NEWS_CONTENT = #{newsContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yz.entity.Article" >
+    update T_CMS_ARTICLE
+    set NEWS_TITLE = #{newsTitle,jdbcType=VARCHAR},
+      NEWS_AUTHOR = #{newsAuthor,jdbcType=VARCHAR},
+      NEWS_IMAGE = #{newsImage,jdbcType=VARCHAR},
+      CLICK_NUM = #{clickNum,jdbcType=DECIMAL},
+      SHOW = #{show,jdbcType=DECIMAL},
+      TYPE_ID = #{typeId,jdbcType=DECIMAL},
+      STATES = #{states,jdbcType=DECIMAL},
+      NEWS_CONTENT = #{newsContent,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.yz.entity.ArticleExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from T_CMS_ARTICLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
